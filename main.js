@@ -23,14 +23,14 @@ var getMaxLengthArrays = function(arr) {
 		}
 
 	}
-	
+
 	// Находим все подпоследовательности такой длины
 	for (var i=0; i<arr.length; i++) {
 
 		if (arr[i].length == maxLength) {
-			
+
 			result.push(arr[i]);
-			
+
 		}
 
 	}
@@ -127,13 +127,13 @@ var copyArray = function(from, to) {
 
 }
 
-var itovalue = function(indexArr, valueArr) { // массив индексов в массив значений
+var getValuesByIndexes = function(arrIndexes, arr) { // массив индексов в массив значений
 
 	var result = [];
 
-	for (var i=0; i<indexArr.length; i++) {
+	for (var i=0; i<arrIndexes.length; i++) {
 
-		result[i] = valueArr[indexArr[i]];
+		result[i] = arr[arrIndexes[i]];
 
 	}
 
@@ -176,19 +176,19 @@ var deleteSameSubarrays = function(arr) {
 }
 
 var getDoubleElemList = function(arr) {
-	
+
 	var result = [];
-	
+
 	for (var i=0; i<arr.length; i++) {
-		
+
 		if (arr[i].length == 2) {
-			
+
 			result.push(arr[i]);
-			
+
 		}
-		
+
 	}
-	
+
 }
 
 var arr = [];
@@ -206,7 +206,7 @@ var search = function(arr) {
 		for (var x=y+1; x<length; x++) { // По столбцам
 
 			if (arr[y] === arr[x]) { // Если равны
-			
+
 				table[y][x] = [[x,y]]; // Запоминаем это совпадение
 
 				previousY = y - 1; // // Поднимаемся по строке вверх
@@ -228,9 +228,9 @@ var search = function(arr) {
 								if (!isInArray(x, subseq[num]) && !isInArray(y, subseq[num])) { // Если такого элемента еще не было
 
 									var newSubSeq = [];
-									
+
 									// Копируем предыдущие значения
-									copyArray(subseq[num], newSubSeq); 
+									copyArray(subseq[num], newSubSeq);
 
 									// Добавляем совпадение в цепочку
 									newSubSeq.push(x);
@@ -238,7 +238,7 @@ var search = function(arr) {
 
 									table[y][x].push(newSubSeq);
 									allCombinations.push(newSubSeq); // Скидываем новую комбинацию в общий список
-									
+
 									console.log(newSubSeq);
 
 								}
@@ -268,7 +268,7 @@ var search = function(arr) {
 	for (var i=0; i<allCombinations.length; i++) {
 
 		allCombinations[i] = deleteEvenIndex(allCombinations[i]); // Удаляем все y-индексы
-		allCombinations[i] = itovalue(allCombinations[i], arr); // Переводим индексы в значения
+		allCombinations[i] = getValuesByIndexes(allCombinations[i], arr); // Переводим индексы в значения
 
 	}
 
@@ -287,7 +287,7 @@ var createSomeEvents = function(config, callback) {
 	var count = config.count || 10;
 	var events = config.events || ['A','B','C'];
 	var randomise = config.randomise;
-	
+
 	if (randomise) { //  Рандомные события
 
 		while (count--) {
@@ -295,15 +295,15 @@ var createSomeEvents = function(config, callback) {
 			callback(randValueFrom(events));
 
 		}
-		
+
 	} else { // Строка в том виде, в котором есть
-		
+
 		for (var i=0; i<events.length; i++) {
-			
+
 			callback(events[i]);
-			
+
 		}
-		
+
 	}
 
 	search(arr);
@@ -319,11 +319,11 @@ var eventHandler = function(event) {
 }
 
 var config = {
-	
+
 	events: ['A','B','C'], // Варианты событий
 	count: 10, // Количество событий
 	randomise: true, // Случайный поток заданного количества заданных событий (вкл/выкл)
-	
+
 }
 
 createSomeEvents(config, eventHandler);
