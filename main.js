@@ -220,7 +220,8 @@ var search = function(arr) {
 							var subseq = table[previousY][previousX];
 							if (!subseq) subseq = [];
 
-							for (var num=0; num<subseq.length; num++) { // Проходим по найденным ранее подпоследовательностям
+							// Проходим по найденным ранее подпоследовательностям
+							for (var num=0; num<subseq.length; num++) {
 
 								// console.log('y = ' + y + ', x = ' + x + ', prevY = ' + previousY + ', prevX = ' + previousX + ', subseqN = ' + num);
 
@@ -237,7 +238,9 @@ var search = function(arr) {
 									newSubSeq.push(y);
 
 									table[y][x].push(newSubSeq);
-									allCombinations.push(newSubSeq); // Скидываем новую комбинацию в общий список
+									
+									// Скидываем новую комбинацию в общий список
+									allCombinations.push(newSubSeq);
 
 									console.log(newSubSeq);
 
