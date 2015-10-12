@@ -1,30 +1,41 @@
-var getRandName = function (count) {
+var randValueFrom = function (array) {
 
-	var nameSpace = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-
-	var r = Math.random() * count;
+	var length = array.length - 1;
+	var r = Math.random() * length;
 	r = Math.round(r);
-	return nameSpace[r];
+	return array[r];
 
 }
 
-var getMaxLength = function(arr) {
+var getMaxLengthArrays = function(arr) {
 
 	var maxLength = 0;
-	var maxLengthArr = 0;
+	var result = [];
 
+	// Находим максимальную длину подпоследовательности
 	for (var i=0; i<arr.length; i++) {
 
 		if (arr[i].length > maxLength) {
 
 			maxLength = arr[i].length;
-			maxLengthArr = i;
+			// maxLengthArr = i;
 
 		}
 
 	}
+	
+	// Находим все подпоследовательности такой длины
+	for (var i=0; i<arr.length; i++) {
 
-	return arr[maxLengthArr];
+		if (arr[i].length == maxLength) {
+			
+			result.push(arr[i]);
+			
+		}
+
+	}
+
+	return result;
 
 }
 
@@ -77,74 +88,84 @@ var getMaxFreq = function(arr) {
 
 }
 
-var arr = [];
+var isInArray = function(value, arr) {
 
-var parse = function(arr, precision) {
+	for (var i=0; i<arr.length; i++) {
 
-	var length = arr.length;
+		if (arr[i] == value) return true;
 
-	var result = []; // Буфер для всех результатов
-	var word = ''; // Временный буфер для промежуточного результата
-	var noise = 0; // Флаг наличия результата в 'шуме'
+	}
 
-	var offset = 0; //
+	return false;
 
-	for (var i = 0; i<length; i++) { // Пробегаем массив от начала до конца
+}
 
-		for (var j = i+1; j<length; j++) { // Бежим от текущего элемента до конца
+var createDoubleArray = function(length) {
 
-			if (arr[i] === arr[j]) { // Если найден такой же символ
+	var arr = [];
+	var length = length;
 
-				var iOffset = i;
-				var jOffset = j;
-				var symbolsPath = 0;
-				precision = (precision < length) ? precision : length; // Каллибруем рамки поиска с пропуском
-				word = [];
+	while(length--) {
 
-				for (var m=0; m<length; m++) { // Пробегаем по следующим потенциально похожим символам до текущего или до конца строки
+		arr[length] = [];
 
-					for (var n=0; n<precision; n++) { // Допускаем 'шум' в заданных пределах
+	}
 
-						if ((iOffset+m+n) < jOffset) { // Левый пакет не может пересекаться с правым
+	return arr;
 
-							if (arr[iOffset+m+n] === arr[jOffset+m]) { // Перескакиваем через n символов от эталона
+}
 
-								if ((iOffset+m+n) == jOffset+m) continue; // Если наткнулись на один и тот же, просто пропускаем
+var copyArray = function(from, to) {
 
-								iOffset += n;
-								noise = 1;
-								if (arr[jOffset+m]) word.push(arr[jOffset+m]);
-								break; // Выходим из шума и продолжаем поиск этой последовательности
+	// to = [];
 
-							} else if (arr[iOffset+m] === arr[jOffset+m+n]) { // Перескакиваем через n символов от искомого
+	for (var i=0; i<from.length; i++) {
 
-								if (iOffset+m == (jOffset+m+n)) continue;
+		to[i] = from[i];
 
-								jOffset += n;
-								noise = 1;
-								if (arr[jOffset+m+n]) word.push(arr[jOffset+m+n]);
-								break; // Выходим из шума и продолжаем поиск
+	}
 
-							}
+}
 
-						} else break;
+var itovalue = function(indexArr, valueArr) { // массив индексов в массив значений
 
-					}
+	var result = [];
 
-					symbolsPath = m; // Запоминаем где остановились
+	for (var i=0; i<indexArr.length; i++) {
 
-					if (!noise) { // Если нет совпадений
+		result[i] = valueArr[indexArr[i]];
 
-						break; // И ищем следующую последовательность
+	}
 
-					} else noise = 0; // Если есть, то опускаем флаг и ищем дальше
+	return result;
 
-				}
+}
 
-				j += symbolsPath;
-				symbolsPath = 0;
+var deleteEvenIndex = function(arr) { // Удаляем все y-индексы из массива
 
-				if (word.length > 1) result.push(word);
+	var result = [];
+	var counter = 0;
+
+	for (var i=0; i<arr.length; i+=2) {
+
+		result.push(arr[i]);
+
+	}
+
+	return result;
+
+}
+
+var deleteSameSubarrays = function(arr) {
+
+	for (var i=0; i<arr.length; i++) {
+
+		for (var j=0; j<arr.length; j++) {
+
+			if (i!=j) if (compareArrays(arr[i],arr[j])) {
+
+				arr.splice(j,1);
+				j--;
 
 			}
 
@@ -152,27 +173,140 @@ var parse = function(arr, precision) {
 
 	}
 
-	console.log(arr);
-	console.log(result);
-
-	console.log(getMaxLength(result));
-	console.log(getMaxFreq(result));
-
 }
 
-var eventEmitter = function(config, callback) {
+var getDoubleElemList = function(arr) {
+	
+	var result = [];
+	
+	for (var i=0; i<arr.length; i++) {
+		
+		if (arr[i].length == 2) {
+			
+			result.push(arr[i]);
+			
+		}
+		
+	}
+	
+}
 
-	var counter = config.events || 100
-	var unique = (config.unique - 1) || 2;
-	var precision = config.precision || 2;
+var arr = [];
 
-	while(counter--) {
+var search = function(arr) {
 
-		callback(getRandName(unique));
+	var allCombinations = [];
+	var length = arr.length;
+	var table = createDoubleArray(length); // length X length // Вспомогательный массив
+	var previousY = 0;
+	var prevValueFound = 0;
+
+	for (var y=0; y<length; y++) { // Пробегаем по строкам
+
+		for (var x=y+1; x<length; x++) { // По столбцам
+
+			if (arr[y] === arr[x]) { // Если равны
+			
+				table[y][x] = [[x,y]]; // Запоминаем это совпадение
+
+				previousY = y - 1; // // Поднимаемся по строке вверх
+
+				while(previousY >= 0) { // Если эта строка существует
+
+					for (var previousX=previousY+1; previousX<x; previousX++) { // Ищем совпадения найденные ранее в заданной области
+
+						if (table[previousY][previousX]) { // Если есть совпадение с символом
+
+							var subseq = table[previousY][previousX];
+							if (!subseq) subseq = [];
+
+							for (var num=0; num<subseq.length; num++) { // Проходим по найденным ранее подпоследовательностям
+
+								// console.log('y = ' + y + ', x = ' + x + ', prevY = ' + previousY + ', prevX = ' + previousX + ', subseqN = ' + num);
+
+								//Переносим комбинации без этого совпадения в текущую ячейку
+								if (!isInArray(x, subseq[num]) && !isInArray(y, subseq[num])) { // Если такого элемента еще не было
+
+									var newSubSeq = [];
+									
+									// Копируем предыдущие значения
+									copyArray(subseq[num], newSubSeq); 
+
+									// Добавляем совпадение в цепочку
+									newSubSeq.push(x);
+									newSubSeq.push(y);
+
+									table[y][x].push(newSubSeq);
+									allCombinations.push(newSubSeq); // Скидываем новую комбинацию в общий список
+									
+									console.log(newSubSeq);
+
+								}
+
+							}
+
+						}
+					}
+
+					previousY--;
+
+				}
+
+			}
+
+		}
 
 	}
 
-	parse(arr, precision);
+	table = [];
+
+	console.log(arr);
+
+	console.log(allCombinations.length);
+
+	// Проходим по массиву со всеми возможными подпоследовательностями
+	for (var i=0; i<allCombinations.length; i++) {
+
+		allCombinations[i] = deleteEvenIndex(allCombinations[i]); // Удаляем все y-индексы
+		allCombinations[i] = itovalue(allCombinations[i], arr); // Переводим индексы в значения
+
+	}
+
+	// Удаляем все повторяющиеся подпоследовательности
+	deleteSameSubarrays(allCombinations);
+
+	// Ищем самую длинную подпоследовательность
+	var maxLengthSeqs = getMaxLengthArrays(allCombinations); // Список самых длинных
+
+	console.log(maxLengthSeqs);
+
+}
+
+var createSomeEvents = function(config, callback) {
+
+	var count = config.count || 10;
+	var events = config.events || ['A','B','C'];
+	var randomise = config.randomise;
+	
+	if (randomise) { //  Рандомные события
+
+		while (count--) {
+
+			callback(randValueFrom(events));
+
+		}
+		
+	} else { // Строка в том виде, в котором есть
+		
+		for (var i=0; i<events.length; i++) {
+			
+			callback(events[i]);
+			
+		}
+		
+	}
+
+	search(arr);
 
 }
 
@@ -185,10 +319,13 @@ var eventHandler = function(event) {
 }
 
 var config = {
-	unique: 3, // Количество уникальных событий
-	precision: 20, // Уровень шума (допустимое количество не нужных символов между искомыми)
-	events: 20
+	
+	events: ['A','B','C'], // Варианты событий
+	count: 10, // Количество событий
+	randomise: true, // Случайный поток заданного количества заданных событий (вкл/выкл)
+	
 }
 
-eventEmitter(config, eventHandler);
+createSomeEvents(config, eventHandler);
+
 console.timeEnd('time');
