@@ -1,4 +1,4 @@
-var randValueFrom = function (array) {
+var randValueFrom = function (array) { // wwwwwwwws
 
 	var length = array.length - 1;
 	var r = Math.random() * length;
