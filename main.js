@@ -284,6 +284,7 @@ var search = function(arr) {
 	console.log(maxLengthSeqs);
     
     console.log('This is new feature');
+    console.log('Еще одна фича');
 
 }
 
