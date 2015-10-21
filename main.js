@@ -282,6 +282,8 @@ var search = function(arr) {
 	var maxLengthSeqs = getMaxLengthArrays(allCombinations); // Список самых длинных
 
 	console.log(maxLengthSeqs);
+    
+    console.log('This is new feature');
 
 }
 
