@@ -25,7 +25,7 @@ var getMaxLengthArrays = function(arr) { // add new commit from sub routine
 	}
 
 	// Находим все подпоследовательности такой длины
-	for (var i=0; i<arr.length; i++) {
+	for (var i=0; i<arr.length; i++) { // Add some fixes in master
 
 		if (arr[i].length == maxLength) {
 
