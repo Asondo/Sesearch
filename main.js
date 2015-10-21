@@ -13,7 +13,7 @@ var getMaxLengthArrays = function(arr) { // add new commit from sub routine
 	var result = [];
 
 	// Находим максимальную длину подпоследовательности
-	for (var i=0; i<arr.length; i++) {
+	for (var i=0; i<arr.length; i++) { // add new commit from sub routine again
 
 		if (arr[i].length > maxLength) {
 
@@ -223,7 +223,7 @@ var search = function(arr) {
 							// Проходим по найденным ранее подпоследовательностям
 							for (var num=0; num<subseq.length; num++) {
 
-								// console.log('y = ' + y + ', x = ' + x + ', prevY = ' + previousY + ', prevX = ' + previousX + ', subseqN = ' + num);
+								console.log('y = ' + y + ', x = ' + x + ', prevY = ' + previousY + ', prevX = ' + previousX + ', subseqN = ' + num);
 
 								//Переносим комбинации без этого совпадения в текущую ячейку
 								if (!isInArray(x, subseq[num]) && !isInArray(y, subseq[num])) { // Если такого элемента еще не было
